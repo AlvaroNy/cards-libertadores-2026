@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Libertadores 2026 · Minha coleção de cards</title>
+<style>
+:root{
+  --bg:#0a0f16; --panel:#111a25; --panel2:#152030; --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.12);
+  --tx:#eaf0f7; --mut:#8396ab; --gold:#e9b949;
+  --Legends:#f2b83d; --Star:#59b6ff; --Elite:#b58cff; --Masterclass:#45d9a0; --Joker:#ff7a95; --Top:#9fb0c4;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font-family:"Inter","Segoe UI",system-ui,-apple-system,sans-serif;color:var(--tx);background:
+  radial-gradient(1200px 500px at 85% -10%,rgba(233,185,73,.10),transparent 60%),
+  radial-gradient(900px 500px at -10% 0%,rgba(89,182,255,.08),transparent 55%),var(--bg);min-height:100vh;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+header{padding:44px 0 24px}
+.eyebrow{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h1{font-size:clamp(28px,4vw,40px);font-weight:700;letter-spacing:-.02em;margin:8px 0 6px}
+h1 span{color:var(--gold)}
+.sub{color:var(--mut);font-size:14px;max-width:640px;line-height:1.5}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:26px}
+.stat{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:16px;padding:16px 18px}
+.stat b{display:block;font-size:30px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.stat span{font-size:12px;color:var(--mut)}
+.toolbar{position:sticky;top:0;z-index:20;background:rgba(10,15,22,.82);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:14px 0}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line2);background:transparent;color:var(--tx);padding:7px 13px;border-radius:999px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:7px;font-family:inherit;transition:.15s}
+.chip i{width:8px;height:8px;border-radius:50%;background:var(--c,#888)}
+.chip small{color:var(--mut);font-size:11px}
+.chip:hover{border-color:var(--c,var(--gold))}
+.chip.on{background:var(--c,var(--gold));border-color:var(--c,var(--gold));color:#0a0f16;font-weight:600}
+.chip.on i{background:#0a0f16}.chip.on small{color:rgba(10,15,22,.65)}
+.controls{margin-top:12px}
+.field{position:relative}
+select,input[type=text]{appearance:none;background:var(--panel);color:var(--tx);border:1px solid var(--line2);border-radius:12px;padding:10px 14px;font-size:14px;font-family:inherit;outline:none;transition:.15s}
+select{padding-right:34px;min-width:200px;background-image:linear-gradient(45deg,transparent 50%,var(--mut) 50%),linear-gradient(135deg,var(--mut) 50%,transparent 50%);background-position:calc(100% - 18px) 50%,calc(100% - 13px) 50%;background-size:5px 5px;background-repeat:no-repeat}
+input[type=text]{min-width:240px}
+select:focus,input:focus{border-color:var(--gold);box-shadow:0 0 0 3px rgba(233,185,73,.15)}
+.seg{display:flex;background:var(--panel);border:1px solid var(--line2);border-radius:12px;padding:3px}
+.seg button{border:0;background:transparent;color:var(--mut);padding:7px 14px;border-radius:9px;font-size:13px;cursor:pointer;font-family:inherit}
+.seg button.on{background:var(--panel2);color:var(--tx);box-shadow:inset 0 0 0 1px var(--line2)}
+.reset{background:transparent;border:0;color:var(--mut);cursor:pointer;font-size:13px;text-decoration:underline;font-family:inherit}
+.reset:hover{color:var(--tx)}
+.count{margin-left:auto;color:var(--mut);font-size:13px}
+.tablebox{margin:22px 0 40px;background:var(--panel);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.scroller{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:780px}
+thead th{padding:14px 18px;text-align:left;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);font-weight:600;background:var(--panel2);border-bottom:1px solid var(--line2);cursor:pointer;user-select:none;white-space:nowrap}
+thead th:hover{color:var(--tx)}
+thead th .ar{opacity:.0;margin-left:6px}
+thead th.sorted .ar{opacity:1;color:var(--gold)}
+tbody tr{border-bottom:1px solid var(--line);transition:background .15s}
+tbody tr:last-child{border-bottom:0}
+tbody tr:hover{background:rgba(255,255,255,.035)}
+td{padding:12px 18px;vertical-align:middle}
+td.photo{width:96px;padding-right:6px;position:relative}
+td.photo::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:3px;border-radius:0 3px 3px 0;background:var(--c)}
+.thumb{width:68px;aspect-ratio:3/4;border-radius:9px;object-fit:cover;display:block;background:#0b1118;box-shadow:0 6px 16px rgba(0,0,0,.45);border:1px solid var(--line2);cursor:zoom-in;transition:transform .18s}
+.thumb:hover{transform:scale(1.07)}
+.code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-weight:600;font-size:13px;background:rgba(255,255,255,.06);border:1px solid var(--line2);padding:4px 9px;border-radius:8px;letter-spacing:.04em}
+.name{font-weight:600;font-size:15px}
+.tag{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:var(--c);background:color-mix(in srgb,var(--c) 14%,transparent);border:1px solid color-mix(in srgb,var(--c) 35%,transparent);padding:4px 11px;border-radius:999px}
+.team{color:var(--tx);font-size:14px}
+.est{display:inline-block;margin-left:6px;font-size:10.5px;color:var(--mut);border:1px solid var(--line2);border-radius:6px;padding:1px 6px}
+.qty{text-align:center;width:130px}
+.qpill{display:inline-flex;align-items:baseline;gap:3px;font-variant-numeric:tabular-nums;font-weight:700;font-size:20px;padding:6px 16px;border-radius:12px;border:1px solid var(--line2);background:rgba(255,255,255,.04)}
+.qpill small{font-size:12px;color:var(--mut);font-weight:600}
+.qpill.q4{color:#45d9a0;border-color:rgba(69,217,160,.4);background:rgba(69,217,160,.08)}
+.qpill.q3{color:var(--gold);border-color:rgba(233,185,73,.4);background:rgba(233,185,73,.08)}
+.br{display:inline-flex;align-items:center;gap:6px;margin-left:10px;font-size:10.5px;font-weight:800;letter-spacing:.1em;color:#04210f;background:linear-gradient(90deg,#1fb85a,#f4d21f);padding:3px 9px;border-radius:6px;vertical-align:middle}
+tr.isbr{background:linear-gradient(90deg,rgba(31,184,90,.09),transparent 45%)}
+tr.isbr:hover{background:linear-gradient(90deg,rgba(31,184,90,.15),rgba(255,255,255,.03) 60%)}
+.brbtn{border:1px solid rgba(31,184,90,.55);background:transparent;color:#4fe08b;padding:7px 13px;border-radius:999px;font-size:13px;cursor:pointer;font-family:inherit;font-weight:600;display:flex;gap:7px;align-items:center}
+.brbtn small{color:var(--mut);font-weight:500}
+.brbtn.on{background:linear-gradient(90deg,#1fb85a,#f4d21f);color:#04210f;border-color:transparent}.brbtn.on small{color:rgba(4,33,15,.7)}
+.empty{padding:50px;text-align:center;color:var(--mut)}
+footer{color:var(--mut);font-size:12px;line-height:1.6;padding-bottom:50px}
+#zoom{position:fixed;inset:0;background:rgba(5,8,12,.88);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:60;cursor:zoom-out;flex-direction:column;gap:12px}
+#zoom img{max-height:86vh;max-width:90vw;border-radius:14px;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+#zoom div{color:var(--tx);font-weight:600}
+@media(max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.count{margin-left:0;width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">CONMEBOL Libertadores 2026 · Panini</div>
+  <h1>Minha coleção de <span>cards</span></h1>
+  <p class="sub">Quantidades calculadas a partir dos 6 pedidos de 50 cromos. Faltam apenas 2 cards, que saem em novembro depois do campeão.</p>
+  <div class="stats">
+    <div class="stat"><b id="sDif">0</b><span>cards diferentes</span></div>
+    <div class="stat"><b id="sTot">0</b><span>cromos no total</span></div>
+    <div class="stat"><b id="sShow">0</b><span>cards no filtro atual</span></div>
+    <div class="stat"><b id="sShowQ">0</b><span>cromos no filtro atual</span></div>
+  </div>
+</header>
+</div>
+<div class="toolbar"><div class="wrap">
+  <div class="chips" id="chips"></div>
+  <div class="row controls">
+    <div class="field"><select id="fTeam"></select></div>
+    <div class="seg" id="seg"><button data-q="" class="on">Todas</button><button data-q="4">4 de cada</button><button data-q="3">3 de cada</button></div>
+    <div class="field"><input type="text" id="fText" placeholder="Buscar nome ou código…"></div>
+    <button class="reset" id="clear">Limpar filtros</button>
+    <div class="count" id="count"></div>
+  </div>
+</div></div>
+<div class="wrap">
+<div class="tablebox"><div class="scroller">
+<table>
+<thead><tr>
+  <th style="cursor:default">Foto</th>
+  <th data-k="code">Código<span class="ar"></span></th>
+  <th data-k="player">Nome<span class="ar"></span></th>
+  <th data-k="category">Categoria<span class="ar"></span></th>
+  <th data-k="team">Time<span class="ar"></span></th>
+  <th data-k="qty" style="text-align:center">Quantidade<span class="ar"></span></th>
+</tr></thead>
+<tbody id="tb"></tbody>
+</table>
+<div class="empty" id="empty" style="display:none">Nenhum card com esses filtros.</div>
+</div></div>
+<footer>Times marcados com <span class="est">est.</span> não constam na página do produto e foram estimados; os demais vêm da loja ou de informação sua. A marca BRASIL indica times brasileiros (Palmeiras, Flamengo, Fluminense, Corinthians, Cruzeiro e Mirassol) e as lendas brasileiras (Bebeto, Rivaldo, Romário e Zico). Clique na foto para ampliar e nos títulos para ordenar.</footer>
+</div>
+<div id="zoom"><img alt=""><div></div></div>
+<script>
+const DATA = [{"code":"E01","player":"Gustavo Gomez","category":"Elite","team":"Palmeiras","confirmed":false,"qty":4,"file":"E01_Gustavo_Gomez_–_Elite.webp"},{"code":"E02","player":"Leandro Paredes","category":"Elite","team":"Boca Juniors","confirmed":true,"qty":4,"file":"E02_Leandro_Paredes_–_Elite.webp"},{"code":"E03","player":"John Arias","category":"Elite","team":"Palmeiras","confirmed":false,"qty":4,"file":"E03_John_Arias_–_Elite.webp"},{"code":"E04","player":"Lucas Paquetá","category":"Elite","team":"Flamengo","confirmed":false,"qty":4,"file":"E04_Lucas_Paquetá_–_Elite.webp"},{"code":"E05","player":"Teo Gutierrez","category":"Elite","team":"Paraguai","confirmed":true,"qty":4,"file":"E05_Teo_Gutierrez_–_Elite.webp"},{"code":"J01","player":"Carlos Faya","category":"Joker","team":"Junior Barranquilla","confirmed":true,"qty":4,"file":"J01_Carlos_Faya_–_Joker.webp"},{"code":"J02","player":"Eduardo Salvio","category":"Joker","team":"Venezuela","confirmed":true,"qty":4,"file":"J02_Eduardo_Salvio_–_Joker.webp"},{"code":"J03","player":"Gérson","category":"Joker","team":"Cruzeiro","confirmed":false,"qty":4,"file":"J03_Gérson_–_Joker.webp"},{"code":"J04","player":"Jordy Alcivar","category":"Joker","team":"Independiente del Valle","confirmed":false,"qty":4,"file":"J04_Jordy_Alcivar_–_Joker.webp"},{"code":"J05","player":"Lorenzo Melgarejo","category":"Joker","team":"Argentina","confirmed":true,"qty":4,"file":"J05_Lorenzo_Melgarejo_–_Joker.webp"},{"code":"L01","player":"Bebeto","category":"Legends","team":"Lenda","confirmed":true,"qty":4,"file":"L01_Bebeto_–_Legends.webp"},{"code":"L02","player":"Diego Lugano","category":"Legends","team":"Lenda","confirmed":true,"qty":4,"file":"L02_Diego_Lugano_–_Legends.webp"},{"code":"L03","player":"Gabriel Batistuta","category":"Legends","team":"Lenda","confirmed":true,"qty":4,"file":"L03_Gabriel_Batistuta_–_Legends.webp"},{"code":"L04","player":"Javier Mascherano","category":"Legends","team":"Lenda","confirmed":true,"qty":4,"file":"L04_Javier_Mascherano_–_Legends.webp"},{"code":"L05","player":"René Higuita","category":"Legends","team":"Lenda","confirmed":true,"qty":4,"file":"L05_René_Higuita_–_Legends.webp"},{"code":"L06","player":"Rivaldo","category":"Legends","team":"Lenda","confirmed":true,"qty":4,"file":"L06_Rivaldo_–_Legends.webp"},{"code":"L07","player":"Romário","category":"Legends","team":"Lenda","confirmed":true,"qty":4,"file":"L07_Romário_–_Legends.webp"},{"code":"L08","player":"Zico","category":"Legends","team":"Lenda","confirmed":true,"qty":4,"file":"L08_Zico_–_Legends.webp"},{"code":"M01","player":"Carlos Lampe","category":"Masterclass","team":"Bolívar","confirmed":false,"qty":4,"file":"M01_Carlos_Lampe_–_Masterclass.webp"},{"code":"M02","player":"Edison Flores","category":"Masterclass","team":"Universitario","confirmed":false,"qty":4,"file":"M02_Edison_Flores_–_Masterclass.webp"},{"code":"M03","player":"Fábio","category":"Masterclass","team":"Fluminense","confirmed":true,"qty":4,"file":"M03_Fábio_–_Masterclass.webp"},{"code":"M04","player":"Gary Medel","category":"Masterclass","team":"Universidad Católica","confirmed":true,"qty":4,"file":"M04_Gary_Medel_–_Masterclass.webp"},{"code":"M05","player":"Jorginho","category":"Masterclass","team":"Flamengo","confirmed":true,"qty":4,"file":"M05_Jorginho_–_Masterclass.webp"},{"code":"S01","player":"Di María","category":"Star Player","team":"Rosario Central","confirmed":false,"qty":4,"file":"S01_Di_María_–_Star_Player.webp"},{"code":"S02","player":"Arrascaeta","category":"Star Player","team":"Flamengo","confirmed":false,"qty":4,"file":"S02_Arrascaeta_–_Star_Player.webp"},{"code":"S03","player":"Edinson Cavani","category":"Star Player","team":"Boca Juniors","confirmed":false,"qty":4,"file":"S03_Edinson_Cavani_–_Star_Player.webp"},{"code":"S04","player":"Muslera","category":"Star Player","team":"Estudiantes","confirmed":false,"qty":4,"file":"S04_Muslera_–_Star_Player.webp"},{"code":"S05","player":"Memphis Depay","category":"Star Player","team":"Corinthians","confirmed":false,"qty":4,"file":"S05_Memphis_Depay_–_Star_Player.webp"},{"code":"T01","player":"Álex Arce","category":"Top Player","team":"Independiente Rivadavia","confirmed":false,"qty":4,"file":"T01_Álex_Arce_–_Top_Player.webp"},{"code":"T02","player":"Alejo Veliz","category":"Top Player","team":"Rosario Central","confirmed":true,"qty":4,"file":"T02_Alejo_Veliz_–_Top_Player.webp"},{"code":"T03","player":"Andreas Pereira","category":"Top Player","team":"Palmeiras","confirmed":true,"qty":4,"file":"T03_Andreas_Pereira_–_Top_Player.webp"},{"code":"T04","player":"Andy Polo","category":"Top Player","team":"Universitario","confirmed":true,"qty":4,"file":"T04_Andy_Polo_–_Top_Player.webp"},{"code":"T05","player":"Benjamin Chandía","category":"Top Player","team":"Coquimbo Unido","confirmed":true,"qty":4,"file":"T05_Benjamin_Chandía_–_Top_Player.webp"},{"code":"T06","player":"Breno Bidon","category":"Top Player","team":"Corinthians","confirmed":true,"qty":4,"file":"T06_Breno_Bidon_–_Top_Player.webp"},{"code":"T07","player":"Bruno Henrique","category":"Top Player","team":"Flamengo","confirmed":true,"qty":4,"file":"T07_Bruno_Henrique_–_Top_Player.webp"},{"code":"T08","player":"Carlos Bacca","category":"Top Player","team":"Junior Barranquilla","confirmed":true,"qty":4,"file":"T08_Carlos_Bacca_–_Top_Player.webp"},{"code":"T09","player":"Danilo","category":"Top Player","team":"Flamengo","confirmed":true,"qty":4,"file":"T09_Danilo_–_Top_Player.webp"},{"code":"T10","player":"Darío Benedetto","category":"Top Player","team":"Barcelona (EQU)","confirmed":true,"qty":4,"file":"T10_Darío_Benedetto_–_Top_Player.webp"},{"code":"T11","player":"Deyverson","category":"Top Player","team":"LDU Quito","confirmed":true,"qty":4,"file":"T11_Deyverson_–_Top_Player.webp"},{"code":"T12","player":"Enrique Triverio","category":"Top Player","team":"Always Ready","confirmed":true,"qty":4,"file":"T12_Enrique_Triverio_–_Top_Player.webp"},{"code":"T13","player":"Ezequiel Piovi","category":"Top Player","team":"Estudiantes","confirmed":true,"qty":4,"file":"T13_Ezequiel_Piovi_–_Top_Player.webp"},{"code":"T14","player":"Facundo Callejo","category":"Top Player","team":"Cusco","confirmed":true,"qty":4,"file":"T14_Facundo_Callejo_–_Top_Player.webp"},{"code":"T15","player":"Fernando Zampedri","category":"Top Player","team":"Universidad Católica","confirmed":true,"qty":4,"file":"T15_Fernando_Zampedri_–_Top_Player.webp"},{"code":"T16","player":"Flaco Lopez","category":"Top Player","team":"Palmeiras","confirmed":true,"qty":4,"file":"T16_Flaco_Lopez_–_Top_Player.webp"},{"code":"T17","player":"Franco Zapiola","category":"Top Player","team":"Platense","confirmed":true,"qty":4,"file":"T17_Franco_Zapiola_–_Top_Player.webp"},{"code":"T18","player":"Frank Fabra","category":"Top Player","team":"Independiente Medellín","confirmed":true,"qty":4,"file":"T18_Frank_Fabra_–_Top_Player.webp"},{"code":"T19","player":"Germán Cano","category":"Top Player","team":"Fluminense","confirmed":true,"qty":4,"file":"T19_Germán_Cano_–_Top_Player.webp"},{"code":"T20","player":"Guido Mainero","category":"Top Player","team":"Platense","confirmed":true,"qty":4,"file":"T20_Guido_Mainero_–_Top_Player.webp"},{"code":"T21","player":"Hugo Rodallega","category":"Top Player","team":"Independiente Santa Fe","confirmed":true,"qty":4,"file":"T21_Hugo_Rodallega_–_Top_Player.webp"},{"code":"T22","player":"Jersson Gonzalez","category":"Top Player","team":"Deportes Tolima","confirmed":true,"qty":4,"file":"T22_Jersson_Gonzalez_–_Top_Player.webp"},{"code":"T23","player":"Jesse Lingard","category":"Top Player","team":"Corinthians","confirmed":true,"qty":4,"file":"T23_Jesse_Lingard_–_Top_Player.webp"},{"code":"T24","player":"Juan Iturbe","category":"Top Player","team":"Cerro Porteño","confirmed":true,"qty":4,"file":"T24_Juan_Iturbe_–_Top_Player.webp"},{"code":"T25","player":"Juan Zapata","category":"Top Player","team":"Universidad Central","confirmed":true,"qty":4,"file":"T25_Juan_Zapata_–_Top_Player.webp"},{"code":"T26","player":"Kaio Jorge","category":"Top Player","team":"Cruzeiro","confirmed":true,"qty":4,"file":"T26_Kaio_Jorge_–_Top_Player.webp"},{"code":"T27","player":"Leonardo Fernández","category":"Top Player","team":"Peñarol","confirmed":true,"qty":4,"file":"T27_Leonardo_Fernández_–_Top_Player.webp"},{"code":"T28","player":"Lucho Acosta","category":"Top Player","team":"Fluminense","confirmed":true,"qty":4,"file":"T28_Lucho_Acosta_–_Top_Player.webp"},{"code":"T29","player":"Luis Muriel","category":"Top Player","team":"Junior Barranquilla","confirmed":true,"qty":4,"file":"T29_Luis_Muriel_–_Top_Player.webp"},{"code":"T30","player":"Luis Sandoval","category":"Top Player","team":"Deportes Tolima","confirmed":true,"qty":4,"file":"T30_Luis_Sandoval_–_Top_Player.webp"},{"code":"T31","player":"Marcelino Moreno","category":"Top Player","team":"Lanús","confirmed":true,"qty":4,"file":"T31_Marcelino_Moreno_–_Top_Player.webp"},{"code":"T32","player":"Marlon Freitas","category":"Top Player","team":"Palmeiras","confirmed":true,"qty":4,"file":"T32_Marlon_Freitas_–_Top_Player.webp"},{"code":"T33","player":"Martín Cauteruccio","category":"Top Player","team":"Bolívar","confirmed":true,"qty":4,"file":"T33_Martín_Cauteruccio_–_Top_Player.webp"},{"code":"T34","player":"Matheus Pereira","category":"Top Player","team":"Cruzeiro","confirmed":true,"qty":4,"file":"T34_Matheus_Pereira_–_Top_Player.webp"},{"code":"T35","player":"Negueba","category":"Top Player","team":"Mirassol","confirmed":true,"qty":4,"file":"T35_Negueba_–_Top_Player.webp"},{"code":"T36","player":"Pablo Vegetti","category":"Top Player","team":"Cerro Porteño","confirmed":true,"qty":4,"file":"T36_Pablo_Vegetti_–_Top_Player.webp"},{"code":"T37","player":"Patrick Mercado","category":"Top Player","team":"Independiente del Valle","confirmed":true,"qty":4,"file":"T37_Patrick_Mercado_–_Top_Player.webp"},{"code":"T38","player":"Pedro","category":"Top Player","team":"Flamengo","confirmed":true,"qty":4,"file":"T38_Pedro_–_Top_Player.webp"},{"code":"T39","player":"PH Ganso","category":"Top Player","team":"Fluminense","confirmed":true,"qty":3,"file":"T39_PH_Ganso_–_Top_Player.webp"},{"code":"T40","player":"Reinaldo","category":"Top Player","team":"Mirassol","confirmed":true,"qty":3,"file":"T40_Reinaldo_–_Top_Player.webp"},{"code":"T41","player":"Ricardo Adé","category":"Top Player","team":"LDU Quito","confirmed":true,"qty":3,"file":"T41_Ricardo_Adé_–_Top_Player.webp"},{"code":"T42","player":"Rodrigo Garro","category":"Top Player","team":"Corinthians","confirmed":true,"qty":3,"file":"T42_Rodrigo_Garro_–_Top_Player.webp"},{"code":"T43","player":"Santiago Ascacíbar","category":"Top Player","team":"Boca Juniors","confirmed":true,"qty":3,"file":"T43_Santiago_Ascacíbar_–_Top_Player.webp"},{"code":"T44","player":"Savarino","category":"Top Player","team":"Fluminense","confirmed":true,"qty":3,"file":"T44_Savarino_–_Top_Player.webp"},{"code":"T45","player":"Sebastián Cortes","category":"Top Player","team":"Nacional","confirmed":true,"qty":3,"file":"T45_Sebastián_Cortes_–_Top_Player.webp"},{"code":"T46","player":"Sebastián Villa","category":"Top Player","team":"Independiente Rivadavia","confirmed":true,"qty":3,"file":"T46_Sebastián_Villa_–_Top_Player.webp"},{"code":"T47","player":"Vitor Roque","category":"Top Player","team":"Palmeiras","confirmed":true,"qty":3,"file":"T47_Vitor_Roque_–_Top_Player.webp"},{"code":"T48","player":"Walter","category":"Top Player","team":"Mirassol","confirmed":true,"qty":3,"file":"T48_Walter_–_Top_Player.webp"},{"code":"T49","player":"Yoshimar Yotún","category":"Top Player","team":"Sporting Cristal","confirmed":true,"qty":3,"file":"T49_Yoshimar_Yotún_–_Top_Player.webp"},{"code":"T50","player":"Yuri Alberto","category":"Top Player","team":"Corinthians","confirmed":true,"qty":3,"file":"T50_Yuri_Alberto_–_Top_Player.webp"}];
+const DIR='fotos-cards-libertadores-2026/';
+const COLORS={'Legends':'var(--Legends)','Star Player':'var(--Star)','Elite':'var(--Elite)','Masterclass':'var(--Masterclass)','Joker':'var(--Joker)','Top Player':'var(--Top)'};
+const norm=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+const cats=[...new Set(DATA.map(d=>d.category))];
+const BR_CLUBS=new Set(['Palmeiras','Flamengo','Fluminense','Corinthians','Cruzeiro','Mirassol']);const BR_LEG=new Set(['L01','L06','L07','L08']);const isBR=d=>BR_CLUBS.has(d.team)||BR_LEG.has(d.code);
+let onlyBR=false;let selCat='', selQty='', sortK='code', asc=true;
+const chips=document.getElementById('chips');
+function drawChips(){
+  chips.innerHTML='<button class="chip'+(selCat===''?' on':'')+'" data-c="">Todas <small>'+DATA.length+'</small></button>'+
+  '<button class="brbtn'+(onlyBR?' on':'')+'" id="brbtn">Só do Brasil <small>'+DATA.filter(isBR).length+'</small></button>'+cats.map(c=>'<button class="chip'+(selCat===c?' on':'')+'" style="--c:'+COLORS[c]+'" data-c="'+c+'"><i></i>'+c+' <small>'+DATA.filter(d=>d.category===c).length+'</small></button>').join('');
+}
+const fTeam=document.getElementById('fTeam'), fText=document.getElementById('fText');
+const teams=[...new Set(DATA.map(d=>d.team))].sort((a,b)=>a.localeCompare(b,'pt'));
+fTeam.innerHTML='<option value="">Todos os times</option>'+teams.map(t=>'<option>'+t+'</option>').join('');
+function render(){
+  const t=norm(fText.value.trim());
+  const rows=DATA.filter(d=>(!onlyBR||isBR(d))&&(!selCat||d.category===selCat)&&(!fTeam.value||d.team===fTeam.value)&&(!selQty||String(d.qty)===selQty)&&(!t||norm(d.player+' '+d.code+' '+d.team).includes(t)));
+  rows.sort((a,b)=>{const x=a[sortK],y=b[sortK];const r=typeof x==='number'?x-y:String(x).localeCompare(String(y),'pt',{numeric:true});return asc?r:-r;});
+  document.getElementById('tb').innerHTML=rows.map(d=>{const u=DIR+encodeURIComponent(d.file);const c=COLORS[d.category];
+    return '<tr'+(isBR(d)?' class="isbr"':'')+'><td class="photo" style="--c:'+c+'"><img class="thumb" loading="lazy" src="'+u+'" alt="'+d.code+'" data-full="'+u+'" data-cap="'+d.code+' · '+d.player+'"></td>'
+    +'<td><span class="code">'+d.code+'</span></td><td class="name">'+d.player+(isBR(d)?'<span class="br">BRASIL</span>':'')+'</td>'
+    +'<td><span class="tag" style="--c:'+c+'">'+d.category+'</span></td>'
+    +'<td class="team">'+d.team+(d.confirmed?'':'<span class="est">est.</span>')+'</td>'
+    +'<td class="qty"><span class="qpill q'+d.qty+'">'+d.qty+'<small>×</small></span></td></tr>';}).join('');
+  document.getElementById('empty').style.display=rows.length?'none':'block';
+  document.getElementById('sShow').textContent=rows.length;
+  document.getElementById('sShowQ').textContent=rows.reduce((s,d)=>s+d.qty,0);
+  document.getElementById('count').textContent=rows.length+' de '+DATA.length+' cards';
+  document.querySelectorAll("thead th[data-k]").forEach(th=>{const on=th.dataset.k===sortK;th.classList.toggle('sorted',on);th.querySelector('.ar').textContent=on?(asc?'▲':'▼'):''});
+}
+document.getElementById('sDif').textContent=DATA.length;
+document.getElementById('sTot').textContent=DATA.reduce((s,d)=>s+d.qty,0);
+chips.addEventListener('click',e=>{if(e.target.closest('#brbtn')){onlyBR=!onlyBR;drawChips();render();return;}const b=e.target.closest('.chip');if(!b)return;selCat=b.dataset.c;drawChips();render();});
+document.getElementById('seg').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;selQty=b.dataset.q;document.querySelectorAll('#seg button').forEach(x=>x.classList.toggle('on',x===b));render();});
+fTeam.addEventListener('change',render);fText.addEventListener('input',render);
+document.getElementById('clear').onclick=()=>{onlyBR=false;selCat='';selQty='';fTeam.value='';fText.value='';document.querySelectorAll('#seg button').forEach((x,i)=>x.classList.toggle('on',i===0));drawChips();render();};
+document.querySelectorAll("thead th[data-k]").forEach(th=>th.onclick=()=>{const k=th.dataset.k;if(sortK===k)asc=!asc;else{sortK=k;asc=true;}render();});
+const z=document.getElementById('zoom');
+document.getElementById('tb').addEventListener('click',e=>{if(e.target.classList.contains('thumb')){z.querySelector('img').src=e.target.dataset.full;z.querySelector('div').textContent=e.target.dataset.cap;z.style.display='flex';}});
+z.onclick=()=>z.style.display='none';document.addEventListener('keydown',e=>{if(e.key==='Escape')z.style.display='none'});
+drawChips();render();
+</script>
+</body>
+</html>
